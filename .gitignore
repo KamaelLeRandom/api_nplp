@@ -1,0 +1,60 @@
+############################
+# Java / Maven / Spring Boot
+############################
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+############################
+# Eclipse
+############################
+.project
+.classpath
+.settings/
+.apt_generated/
+.factorypath
+.recommenders/
+
+############################
+# OS-specific
+############################
+.DS_Store
+Thumbs.db
+
+############################
+# IDE-specific
+############################
+.idea/
+*.iws
+*.ipr
+*.iml
+.vscode/
+
+############################
+# Maven wrapper
+############################
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd
+
+############################
+# Spring Boot config files (containing secrets)
+############################
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+
+############################
+# Environment / Secret files
+############################
+.env
+*.env
+.secret
+*.key
+*.pem
+*.jks
