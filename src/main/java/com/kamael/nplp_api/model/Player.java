@@ -6,13 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name="Player")
-@Getter
-@Setter
 public class Player {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -57,5 +53,16 @@ public class Player {
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Column(length=50)
+	private String role;
+	
+	public String getRole() {
+		return this.role;
+	}
+	
+	public void setRole(String role) {
+		this.role = role;
 	}
 }
