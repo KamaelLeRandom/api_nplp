@@ -1,5 +1,6 @@
 package com.kamael.nplp_api.configuration;
 
+import java.io.Console;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class JwtUtils {
 	
 	public String createToken(String subject, Map<String, Object> claims) {
 		Date now = new Date();
-		Date expiryDate = new Date(now.getTime() + 3600000);
+		Date expiryDate = new Date(now.getTime() + 4 * 60 * 60 * 1000);
 		
 		return Jwts.builder()
 				.setClaims(claims)

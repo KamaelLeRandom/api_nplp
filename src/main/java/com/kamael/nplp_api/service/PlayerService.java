@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kamael.nplp_api.model.Player;
+import com.kamael.nplp_api.model.PlayerDTO;
 import com.kamael.nplp_api.repository.PlayerRepository;
 
 @Service
@@ -22,12 +23,17 @@ public class PlayerService implements PlayerServiceInterface {
 
 	@Override
 	public Player read(Long id) {
-		return repository.findById(id).orElseGet(null);
+	    return repository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Player not found"));
 	}
 
 	@Override
 	public List<Player> readAll() {
 		return repository.findAll();
+	}
+	
+	public Player readDTOByName(String username) {
+		return repository.findDTOByName(username);
 	}
 
 	@Override

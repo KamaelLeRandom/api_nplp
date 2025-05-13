@@ -2,6 +2,7 @@ package com.kamael.nplp_api.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.kamael.nplp_api.filter.JwtFilter;
+import com.kamael.nplp_api.filter.OriginVerificationFilter;
 import com.kamael.nplp_api.service.AuthService;
 
 @Configuration
@@ -45,12 +47,20 @@ public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(auth ->
-					auth.requestMatchers("/auth/*").permitAll()
-						.anyRequest().authenticated())
-				.addFilterBefore(new JwtFilter(authService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
-				.build();
+	    return http
+	        .cors(cors -> {})
+	        .csrf(AbstractHttpConfigurer::disable)
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/auth/**", "/verify/**").permitAll()
+	            .requestMatchers(HttpMethod.POST, "/result/create").authenticated()
+	            .requestMatchers(HttpMethod.GET, "/**").authenticated()
+	            .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
+	            .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
+	            .anyRequest().authenticated()
+	        )
+	        .addFilterBefore(new OriginVerificationFilter(), UsernamePasswordAuthenticationFilter.class) 
+	        .addFilterBefore(new JwtFilter(authService, jwtUtils), UsernamePasswordAuthenticationFilter.class)
+	        .build();
 	}
 }
